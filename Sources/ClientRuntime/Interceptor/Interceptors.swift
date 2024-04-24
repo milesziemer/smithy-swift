@@ -14,9 +14,12 @@ public struct Interceptors<RequestType: RequestMessage, ResponseType: ResponseMe
     internal init() {}
 
     /// - Parameter interceptor: The Interceptor to add.
-    public mutating func add(
-        _ interceptor: any Interceptor<RequestType, ResponseType, AttributesType>
-    ) {
+    public mutating func add(_ interceptor: some Interceptor<RequestType, ResponseType, AttributesType>) {
+        self.interceptors.append(interceptor.erase())
+    }
+
+    /// - Parameter interceptor: The Interceptor to add.
+    public mutating func add(_ interceptor: any Interceptor<RequestType, ResponseType, AttributesType>) {
         self.interceptors.append(interceptor.erase())
     }
 

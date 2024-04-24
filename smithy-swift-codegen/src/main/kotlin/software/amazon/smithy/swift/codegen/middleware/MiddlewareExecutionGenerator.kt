@@ -55,7 +55,9 @@ class MiddlewareExecutionGenerator(
                 op.toLowerCamelCase(),
             )
         } else {
-            writer.write("let builder = OrchestratorBuilder<$inputShapeName, $outputShapeName, SdkHttpRequest, HttpResponse, HttpContext>()")
+            writer.write("let builder = ClientRuntime.OrchestratorBuilder<$inputShapeName, $outputShapeName, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()")
+            writer.write("config.interceptorProviders.forEach { builder.interceptors.add($$0.create()) }")
+            writer.write("config.httpInterceptorProviders.forEach { builder.interceptors.add($$0.create()) }")
         }
 
         renderMiddlewares(ctx, op, operationStackName)
